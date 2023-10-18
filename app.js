@@ -1,16 +1,17 @@
 const express = require('express');
 const app = express();
+const router = express.Router();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const moment = require('moment');
+
 
 const path = require('path');
 const engine = require('ejs-mate');
 const morgan = require('morgan');
 
 const AppError = require('./utils/AppError');
-const wrapAsync = require('./utils/catchAsync');
-const Note = require('./models/note');
+const notesRoutes = require('./routes/notes');
+
 
 
 mongoose.connect('mongodb://localhost:27017/notebook');
@@ -32,44 +33,7 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-app.get('/notes', async (req, res) => {
-    const notes = await Note.find({});
-    res.render('./notes/notebook', { notes, moment: moment });
-});
-app.post('/notes', wrapAsync(async (req, res, next) => {
-        if(!req.body.note) { throw new AppError('Invalid Note Data', 400)};
-        const note = new Note(req.body.note);
-        await note.save();
-        res.redirect('/notes');
-    
-}));
-app.put('/notes/:id', wrapAsync(async (req, res, next) => {
-        const { id } = req.params;
-        const note = await Note.findByIdAndUpdate(id, {...req.body.note}, { runValidators: true});
-        res.redirect(`./${id}`); 
-}));
-
-
-app.get('/notes/:id/edit', wrapAsync(async (req, res, next) => {
-    const note = await Note.findById(req.params.id);
-    if (!note) {
-        return next(new AppError('Note not found', 404));
-    };
-    res.render('./notes/edit', { note });
-}));
-app.delete('/notes/:id', async (req, res, next) => {
-    const { id } = req.params;
-    await Note.findByIdAndDelete(id);
-    res.redirect('/notes');
-});
-
-app.get('/notes/:id', wrapAsync(async (req, res, next) => {
-    const note = await Note.findById(req.params.id);
-    if (!note) {
-        return next(new AppError('Note not found', 404));
-    };
-    res.render('notes/single', { note, moment: moment });
-}));
+app.use('/notes', notesRoutes);
 
 app.use((err, req, res, next) => {
     console.log(err.name);
@@ -77,7 +41,7 @@ app.use((err, req, res, next) => {
 });
 
 app.all('*', (req, res, next) => {
-    next(new AppError('8=============D suck this big cock fag', 404));
+    next(new AppError('page note found', 404));
 });
 
 app.use((err, req, res, next) => {
