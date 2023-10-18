@@ -8,7 +8,8 @@ const path = require('path');
 const engine = require('ejs-mate');
 const morgan = require('morgan');
 
-const AppError = require('./AppError');
+const AppError = require('./utils/AppError');
+const wrapAsync = require('./utils/catchAsync');
 const Note = require('./models/note');
 
 
@@ -36,6 +37,7 @@ app.get('/notes', async (req, res) => {
     res.render('./notes/notebook', { notes, moment: moment });
 });
 app.post('/notes', wrapAsync(async (req, res, next) => {
+        if(!req.body.note) { throw new AppError('Invalid Note Data', 400)};
         const note = new Note(req.body.note);
         await note.save();
         res.redirect('/notes');
@@ -61,12 +63,6 @@ app.delete('/notes/:id', async (req, res, next) => {
     res.redirect('/notes');
 });
 
-function wrapAsync(fn) {
-    return function(req, res, next) {
-        fn(req, res, next).catch(e => next(e));
-    };
-};
-
 app.get('/notes/:id', wrapAsync(async (req, res, next) => {
     const note = await Note.findById(req.params.id);
     if (!note) {
@@ -76,8 +72,17 @@ app.get('/notes/:id', wrapAsync(async (req, res, next) => {
 }));
 
 app.use((err, req, res, next) => {
+    console.log(err.name);
+    next(err);
+});
+
+app.all('*', (req, res, next) => {
+    next(new AppError('8=============D suck this big cock fag', 404));
+});
+
+app.use((err, req, res, next) => {
     const { status = 500, message = 'Uh oh, something went wrong' } = err; 
-    res.status(status).send(message);
+    res.status(status).render('error', { err });
 });
 
 

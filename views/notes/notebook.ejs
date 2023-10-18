@@ -26,16 +26,37 @@
   </div>
   <div class="notes__form col">
     <h1 class="display-1">Create New</h1>
-    <form action="/notes" method="POST">
+    <form action="/notes" method="POST" class="needs-validation" novalidate>
       <fieldset class="form-floating mb-3">
-          <input type="text" id="title" name="note[title]" class="form-control" />
+          <input type="text" id="title" name="note[title]" class="form-control" required />
         <label for="title">Title</label>
       </fieldset>
       <fieldset class="form-floating mb-3">
-          <textarea name="note[body]" id="body" class="form-control" style="height: 320px"></textarea>
+          <textarea name="note[body]" id="body" class="form-control" style="height: 320px" required></textarea>
         <label for="body">Your Note</label>
       </fieldset>
-      <button class="btn btn-success">Add Note</button>
+      <button class="btn btn-success" type="submit">Add Note</button>
     </form>
   </div>
 </div>
+
+<script>
+  (() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
