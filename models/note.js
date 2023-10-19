@@ -9,6 +9,13 @@ const NoteSchema = new Schema({
     body: {
         type: String,
         required: true
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        required: true
+    }, 
+    subject: {
+        type: Schema.Types.ObjectId,
     }
 },
 { 
