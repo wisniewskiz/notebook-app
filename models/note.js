@@ -11,11 +11,10 @@ const NoteSchema = new Schema({
         required: true
     },
     owner: {
-        type: Schema.Types.ObjectId,
-        required: true
+        type: Schema.Types.ObjectId
     }, 
     subject: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId
     }
 },
 { 
