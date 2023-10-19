@@ -14,7 +14,6 @@ router.get('/', async (req, res) => {
     res.render('./notes/notebook', { notes, moment: moment });
 });
 router.post('/', validateNote, wrapAsync(async (req, res, next) => {
-        // if(!req.body.note) { throw new AppError('Invalid Note Data', 400)};
         const note = new Note(req.body.note);
         await note.save();
         res.redirect('/notes');

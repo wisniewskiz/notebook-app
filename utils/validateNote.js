@@ -4,7 +4,8 @@ module.exports = validateNote = (req, res, next) => {
     const noteSchema = joi.object({
         note: joi.object({
             title: joi.string().required(),
-            body: joi.string().required()
+            body: joi.string().required(),
+            subject: joi.string()
         }).required()
     });
     const { error } = noteSchema.validate(req.body);
