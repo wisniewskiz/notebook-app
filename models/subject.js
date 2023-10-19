@@ -7,8 +7,7 @@ const SubjectSchema = new Schema({
         required: true
     }, 
     color: {
-        type: String,
-        required: true
+        type: String
     },
     notes: [{
         type: Schema.Types.ObjectId, ref: 'Notes'

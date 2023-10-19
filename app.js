@@ -10,6 +10,7 @@ const morgan = require('morgan');
 
 const AppError = require('./utils/AppError');
 const notesRoutes = require('./routes/notes');
+const subjectsRoutes = require('./routes/subjects');
 
 
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/notes', notesRoutes);
+app.use('/subjects', subjectsRoutes);
 
 app.use((err, req, res, next) => {
     console.log(err.name);

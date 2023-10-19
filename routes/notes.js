@@ -7,14 +7,17 @@ const AppError = require('../utils/AppError');
 const wrapAsync = require('../utils/catchAsync');
 const validateNote = require('../utils/validateNote');
 const Note = require('../models/note');
+const Subject = require('../models/subject');
 
 
 router.get('/', async (req, res) => {
     const notes = await Note.find({});
-    res.render('./notes/notebook', { notes, moment: moment });
+    const subjects = await Subject.find({});
+    res.render('./notes/notebook', { notes, subjects, moment: moment });
 });
 router.post('/', validateNote, wrapAsync(async (req, res, next) => {
         const note = new Note(req.body.note);
+        console.log(note);
         await note.save();
         res.redirect('/notes');
     
