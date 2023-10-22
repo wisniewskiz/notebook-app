@@ -1,0 +1,21 @@
+<%- layout ('layouts/boilerplate')%>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4 align-self-center my-5">
+            <h2 class="display-2">Login</h2>
+            <form action="/login" method="POST" class="needs-validation" novalidate>
+                <fieldset class="form-floating mb-3">
+                    <input class="form-control" type="email" placeholder="email@email.com" aria-label="user email address" name="email" id="email" required>
+                    <label for="email" class="form-label">Email</label>
+                </fieldset>
+                <fieldset class="form-floating mb-3">
+                    <input class="form-control" type="password" placeholder="password" aria-label="user password" name="password" id="password" required>
+                    <label for="password" class="form-label">Password</label>
+                </fieldset>
+                <fieldset>
+                    <button type="submit" id="login" class="btn btn-primary">Login</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,7 @@ const moment = require('moment');
 const AppError = require('../utils/AppError');
 const wrapAsync = require('../utils/catchAsync');
 const validateNote = require('../utils/validateNote');
+const isAuthenicated = require('../utils/isAuthenticated');
 const Note = require('../models/note');
 const Subject = require('../models/subject');
 
@@ -17,7 +18,6 @@ router.get('/', async (req, res) => {
 });
 router.post('/', validateNote, wrapAsync(async (req, res, next) => {
         const note = new Note(req.body.note);
-        console.log(note);
         await note.save();
         res.redirect('/notes');
     
@@ -39,6 +39,7 @@ router.get('/:id/edit', wrapAsync(async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
     const { id } = req.params;
     await Note.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted note');
     res.redirect('/notes');
 });
 
