@@ -67,9 +67,15 @@
       </fieldset>
       <fieldset class="form-floating mb-3 d-flex">
         <select class="form-select" aria-label="Subject Selection" name="note[subject]" id="subject">
-          <% for(let subject of subjects) { %>
+          <% 
+            if(!subjects) { 
+              console.log('none');
+            } else {
+              console.log('some');
+              
+            for(let subject of subjects) { %>
             <option value="<%= subject._id %>"><%= subject.title %></option>
-            <% } %>
+            <% }} %>
         </select>
         <label for="subject" class="form-label"
         >Add this note to a subject?</label

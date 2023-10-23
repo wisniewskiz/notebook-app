@@ -10,7 +10,7 @@ const SubjectSchema = new Schema({
         type: String
     },
     notes: [{
-        type: Schema.Types.ObjectId, ref: 'Notes'
+        type: Schema.Types.ObjectId, ref: 'Note'
     }],
     owner: [{
         type: Schema.Types.ObjectId, ref: 'User'

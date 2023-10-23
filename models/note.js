@@ -10,12 +10,11 @@ const NoteSchema = new Schema({
         type: String,
         required: true
     },
-    owner: {
-        type: Schema.Types.ObjectId
-    }, 
-    subject: {
-        type: Schema.Types.ObjectId
-    }
+    owner: 
+        [{type: Schema.Types.ObjectId, ref: 'User'}]
+    , 
+    subject: 
+        [{type: Schema.Types.ObjectId, ref: 'Subject'}]
 },
 { 
     timestamps: true
