@@ -3,10 +3,8 @@
   <div class="notes__list col-8">
     <h1 class="display-1">Collected Notes</h1>
     <h6>
-      All Subjects
-      <% for(let subject of subjects) {%>
-        <%= subject.title %>
-        <% } %>
+      All Subjects <% for(let subject of subjects) {%> <%= subject.title %> <% }
+      %>
     </h6>
     <div class="row">
       <% for( let note of notes) { %>
@@ -66,20 +64,19 @@
         <label for="body">Your Note</label>
       </fieldset>
       <fieldset class="form-floating mb-3 d-flex">
-        <select class="form-select" aria-label="Subject Selection" name="note[subject]" id="subject">
-          <% 
-            if(!subjects) { 
-              console.log('none');
-            } else {
-              console.log('some');
-              
-            for(let subject of subjects) { %>
-            <option value="<%= subject._id %>"><%= subject.title %></option>
-            <% }} %>
+        <select
+          class="form-select"
+          aria-label="Subject Selection"
+          name="note[subject]"
+          id="subject"
+        >
+          <% for(let subject of subjects) { %>
+          <option value="<%= subject._id %>"><%= subject.title %></option>
+          <% } %>
         </select>
         <label for="subject" class="form-label"
-        >Add this note to a subject?</label
-      >
+          >Add this note to a subject?</label
+        >
         <button class="btn btn-success" type="submit">Add Note</button>
       </fieldset>
     </form>
@@ -131,13 +128,7 @@
                   placeholder="clever name"
                   required
                 />
-                <label for="title" class="form-label"
-                  >New Subject Title</label
-                >
-              </div>
-              <div class="mb-3">
-                <input type="color" name="subject[color]" id="color">
-                <label for="color" class="form-label">chose</label>
+                <label for="title" class="form-label">New Subject Title</label>
               </div>
               <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary me-4 mb-4">
@@ -151,3 +142,5 @@
     </div>
   </div>
 </div>
+
+<script src="/javascripts/disableSubjects.js" defer></script>

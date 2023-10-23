@@ -6,9 +6,6 @@ const SubjectSchema = new Schema({
         type: String,
         required: true
     }, 
-    color: {
-        type: String
-    },
     notes: [{
         type: Schema.Types.ObjectId, ref: 'Note'
     }],

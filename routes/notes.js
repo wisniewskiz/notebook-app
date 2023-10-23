@@ -20,13 +20,21 @@ router.get('/', isLoggedIn, (async (req, res) => {
 router.post('/', isLoggedIn, validateNote, wrapAsync(async (req, res, next) => {
         const note = new Note(req.body.note);
         const owner = res.locals.currentUser._id;
+        let subject
         note.owner = owner;
         await note.save();
 
         const user = await User.findById(owner);
         user.notes.push(note._id);
         await user.save()
+
+        if(note.subject) {
+           subject = await Subject.findById(note.subject);
+           subject.notes.push(note._id);
+           await subject.save();
+        }
         res.redirect('/notes');
+
     
 }));
 router.put('/:id', isLoggedIn, validateNote, wrapAsync(async (req, res, next) => {
@@ -43,8 +51,10 @@ router.get('/:id/edit', isLoggedIn, wrapAsync(async (req, res, next) => {
     };
     res.render('./notes/edit', { note });
 }));
+
+
 router.delete('/:id', isLoggedIn, async (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.params;;
     await Note.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted note');
     res.redirect('/notes');
